@@ -10,13 +10,13 @@ Unlike traditional pruning (done after training), this model integrates pruning 
 
 ## 🚀 Core Idea
 
-Each weight ( w ) is paired with a learnable gate ( g ):
+Each weight `w` is paired with a learnable gate `g`:
 
-[
-w_{effective} = w \cdot \sigma(g)
-]
+```
+w_effective = w * sigmoid(g)
+```
 
-* ( \sigma(g) \in (0,1) ) using sigmoid
+* sigmoid(g) ∈ (0,1)
 * Gate ≈ 1 → connection active
 * Gate ≈ 0 → connection pruned
 
@@ -33,17 +33,19 @@ w_{effective} = w \cdot \sigma(g)
   * bias
   * gate_scores (learnable)
 
+---
+
 ### 🔹 Sparsity Loss
 
-[
-\text{Loss} = \text{CrossEntropy} + \lambda \cdot \text{SparsityLoss}
-]
+```
+Loss = CrossEntropy + λ * SparsityLoss
+```
 
 Where:
 
-[
-\text{SparsityLoss} = \text{mean of all gate values}
-]
+```
+SparsityLoss = mean of all gate values
+```
 
 * Encourages many gates → 0
 * Produces a sparse network
@@ -67,7 +69,7 @@ Where:
 
 ## 🏗️ Model Architecture
 
-```id="f1w0kq"
+```
 Input (32×32×3)
    ↓
 PrunableLinear (256) + ReLU
@@ -89,12 +91,6 @@ Output (logits)
 | 5e-4   | ~0.50    | Medium       |
 | 1e-3   | ~0.45    | High         |
 
-### 🔍 Observations
-
-* Increasing λ increases sparsity
-* Higher sparsity reduces accuracy
-* There is a clear **trade-off between efficiency and performance**
-
 ---
 
 ## 📊 Visualization
@@ -104,7 +100,7 @@ Output (logits)
 * Spike near **0** → pruned weights
 * Cluster away from 0 → important weights
 
-This confirms that the network successfully learns which connections are unnecessary.
+This confirms successful pruning during training.
 
 ---
 
@@ -119,8 +115,8 @@ This confirms that the network successfully learns which connections are unneces
 
 ## ▶️ How to Run
 
-```bash id="m7p1d2"
-pip install torch torchvision numpy matplotlib
+```
+pip install -r requirements.txt
 python main.py
 ```
 
@@ -128,29 +124,29 @@ python main.py
 
 ## 📁 Project Structure
 
-```id="c4v3z1"
-├── main.py
-├── README.md
-├── requirements.txt
+```
+main.py
+README.md
+requirements.txt
 ```
 
 ---
 
 ## 🎯 Key Learnings
 
-* Implementing custom neural network layers
-* Applying L1-based sparsity regularization
-* Understanding pruning vs accuracy trade-offs
-* Designing efficient deep learning systems
+* Custom neural network layer design
+* L1-based sparsity regularization
+* Trade-off between sparsity and accuracy
+* Efficient model design
 
 ---
 
 ## 🚀 Future Improvements
 
-* Structured pruning (neuron/channel level)
-* Hard threshold pruning after training
-* CNN-based architecture for better accuracy
-* Advanced gating methods (e.g., Gumbel-Softmax)
+* Structured pruning (neuron-level)
+* Hard threshold pruning
+* CNN-based architecture
+* Advanced gating methods
 
 ---
 
@@ -158,4 +154,6 @@ python main.py
 
 **Siddharatha**
 M.Tech (AI/ML)
-Focus: AI Engineering, ML Systems, LLM Applications
+Focus: AI Engineering, ML Systems
+
+---
